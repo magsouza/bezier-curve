@@ -1,10 +1,27 @@
 var c = document.getElementById("myCanvas");
 c.addEventListener("click", addPoint);
 var ctx = c.getContext("2d");
+var showPoints = 1;
+var showPoli = 1;
+var showCurve = 1;
 var points = Array();
 var pointsCurve = Array();
 var Curves = Array();
 var aval = 100;
+
+function toggleControlPoints(){
+    showPoints = !showPoints;
+    updateCanvas();
+}
+
+function toggleControlPoli(){
+    showPoli = !showPoli;
+    updateCanvas();
+}
+function toggleCurves(){
+    showCurve = !showCurve;
+    updateCanvas();
+}
 
 function setAval() {
     aval = document.getElementById("nAvaliacoes").value;
@@ -20,13 +37,18 @@ function addPoint(event) {
 
 function updateCanvas() {
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    if (points.length > 1) {
-        drawLines(points, "#FFD848");
-        pointsCurve = new Array();
-        makeCurve();
-    } else {
+    if(showPoints){
         drawPoints();
     }
+    if (points.length > 1) {
+        if(showPoli)
+            drawLines(points, "#FFD848");
+        
+        pointsCurve = new Array();
+        makeCurve();
+        if(showCurve)
+            drawLines(pointsCurve, "#000000");
+    } 
 }
 
 function drawPoints() {
@@ -40,7 +62,6 @@ function drawPoints() {
 }
 
 function drawLines(pointsSet, color) {
-    drawPoints();
     ctx.strokeStyle = color;
     for (let j = 0; j < pointsSet.length - 1; j++) {
         ctx.beginPath();
@@ -58,7 +79,6 @@ function makeCurve() {
             pointsCurve.push(point);
     }
     pointsCurve.push(points[points.length - 1]);
-    drawLines(pointsCurve, "#000000");
 }
 
 function castanhaDeCaju(anchorPoints, i) {

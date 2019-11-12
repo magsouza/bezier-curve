@@ -15,9 +15,9 @@
                 <b>Avaliações:</b> <input type="text" placeholder="100" id="nAvaliacoes" oninput="setAval()"><br>
                 <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Salvar curva </button>&nbsp;
                 <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
-                <input type="checkbox" onclick="alert('Não ta funcionando ainda :)')"> Pontos de controle
-                <input type="checkbox" onclick="alert('Não ta funcionando ainda :)')"> Poligonais de controle
-                <input type="checkbox" onclick="alert('Não ta funcionando ainda :)')"> Curvas
+                <input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle
+                <input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle
+                <input type="checkbox" onclick="toggleCurves()" checked> Curvas
             </div>
         </font>
         <canvas id="myCanvas" width="1200" height="600" style="border:2px solid #000000;"></canvas>
