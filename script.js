@@ -6,11 +6,20 @@ var pointsCurve = Array();
 var Curves = Array();
 var aval = 100;
 
+function setAval() {
+    aval = document.getElementById("nAvaliacoes").value;
+    updateCanvas();
+}
+
 function addPoint(event) {
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     var x = event.clientX - c.getBoundingClientRect().left;
     var y = event.clientY - c.getBoundingClientRect().top;
     points.push([x, y]);
+    updateCanvas();
+}
+
+function updateCanvas() {
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     if (points.length > 1) {
         drawLines(points, "#FFD848");
         pointsCurve = new Array();
@@ -22,7 +31,7 @@ function addPoint(event) {
 
 function drawPoints() {
     ctx.strokeStyle = "#000000";
-    for(let i = 0; i < points.length;i++){
+    for (let i = 0; i < points.length; i++) {
         ctx.beginPath();
         ctx.arc(points[i][0], points[i][1], 5, 0, 2 * Math.PI);
         ctx.fillRect(points[i][0] - 1.5, points[i][1] - 1.5, 3, 3);
@@ -48,8 +57,8 @@ function makeCurve() {
         if (point)
             pointsCurve.push(point);
     }
-    pointsCurve.push(points[points.length-1]);
-    drawLines(pointsCurve,"#000000");
+    pointsCurve.push(points[points.length - 1]);
+    drawLines(pointsCurve, "#000000");
 }
 
 function castanhaDeCaju(anchorPoints, i) {
