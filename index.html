@@ -6,9 +6,22 @@
 </head>
 
 <body>
-    <h1>Castanha de Caju</h1>
-
-    <canvas id="myCanvas" width="1200" height="600" style="border:2px solid #000000;"></canvas>
+    <center>
+        <font face="calibri">
+            <h1>
+                <font color="#FF775A"> Castanha de Caju </font>
+            </h1>
+            <div>
+                <b>Avaliações:</b> <input type="number" placeholder="100" id="nAvaliacoes" oninput="setAval()"><br>
+                <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Salvar curva </button>&nbsp;
+                <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
+                <input type="checkbox" onclick="alert('Não ta funcionando ainda :)')"> Pontos de controle
+                <input type="checkbox" onclick="alert('Não ta funcionando ainda :)')"> Poligonais de controle
+                <input type="checkbox" onclick="alert('Não ta funcionando ainda :)')"> Curvas
+            </div>
+        </font>
+        <canvas id="myCanvas" width="1200" height="600" style="border:2px solid #000000;"></canvas>
+    </center>
     <script src="script.js"></script>
 </body>
 
