@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Curvas de Bezier</title>
-</head>
-
-<body>
-    <center>
-        <font face="calibri">
-            <h1>
-                <font color="#FF775A"> Castanha de Caju </font>
-            </h1>
-            <div>
-                <b>Avaliações:</b> <input type="text" placeholder="100" id="nAvaliacoes" oninput="setAval()"><br>
-                <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Salvar curva </button>&nbsp;
-                <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
-                <input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle
-                <input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle
-                <input type="checkbox" onclick="toggleCurves()" checked> Curvas
-            </div>
-        </font>
-        <canvas id="myCanvas" width="1200" height="600" style="border:2px solid #000000;"></canvas>
-    </center>
-    <script src="script.js"></script>
-</body>
+    <body>
+        <div class="buttons">
+            <b>Avaliações:</b> <input type="text" placeholder="100" id="nAvaliacoes" oninput="setAval()"><br>
+            <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Salvar curva </button>&nbsp;
+            <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
+            <input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle
+            <input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle
+            <input type="checkbox" onclick="toggleCurves()" checked> Curvas
+        </div>
+        <div class="container">
+            <canvas id="canvas" height="500" width="1000">
+                <script type="text/javascript" src="script.js"></script>
+            </canvas>
+        </div>
 
 </html>

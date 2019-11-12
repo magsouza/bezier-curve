@@ -1,4 +1,4 @@
-var c = document.getElementById("myCanvas");
+var c = document.getElementById("canvas");
 c.addEventListener("click", addPoint);
 var ctx = c.getContext("2d");
 var showPoints = 1;
@@ -36,7 +36,7 @@ function addPoint(event) {
 }
 
 function updateCanvas() {
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     if(showPoints){
         drawPoints();
     }
