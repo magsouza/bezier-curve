@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href=".\style.css">
-        <title>Bézier Curves</title>
-    </head>
-    <body>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href=".\style.css">
+    <title>Bézier Curves</title>
+</head>
+
+<body>
+    <font face="calibri" color="#fff3f9">
+        <h1>
+             Castanha de Caju
+        </h1>
         <div class="buttons">
             <b>Avaliações:</b> <input type="text" placeholder="100" id="nAvaliacoes" oninput="setAval()"><br>
-            <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Salvar curva </button>&nbsp;
+            <button type="button" onclick="startCurve()"> Iniciar curva </button>
+            <button type="button" onclick="stopCurve()"> Encerrar curva </button>
             <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
             <input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle
             <input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle
             <input type="checkbox" onclick="toggleCurves()" checked> Curvas
         </div>
-        <div class="container">
-            <canvas id="canvas" height="500" width="1000">
-                <script type="text/javascript" src="script.js"></script>
-            </canvas>
-        </div>
+    </font>
+    <div class="container">
+        <canvas id="canvas" height="500" width="1000">
+            <script type="text/javascript" src="script.js"></script>
+        </canvas>
+    </div>
 
 </html>

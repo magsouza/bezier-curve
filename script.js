@@ -1,24 +1,37 @@
 var c = document.getElementById("canvas");
-c.addEventListener("click", addPoint);
 var ctx = c.getContext("2d");
+var controlPoints = Array();
+var pointsCurve = Array();
+var pointsArr = Array();
+var curves = Array();
 var showPoints = 1;
 var showPoli = 1;
 var showCurve = 1;
-var points = Array();
-var pointsCurve = Array();
-var Curves = Array();
+var currentCurve = -1;
 var aval = 100;
 
-function toggleControlPoints(){
+function startCurve() {
+    c.addEventListener("click", addPoint);
+    pointsArr.push(new Array());
+    curves = new Array(pointsArr.length);
+    controlPoints = new Array();
+    currentCurve++;
+}
+
+function stopCurve() {
+    c.removeEventListener("click", addPoint);
+}
+
+function toggleControlPoints() {
     showPoints = !showPoints;
     updateCanvas();
 }
 
-function toggleControlPoli(){
+function toggleControlPoli() {
     showPoli = !showPoli;
     updateCanvas();
 }
-function toggleCurves(){
+function toggleCurves() {
     showCurve = !showCurve;
     updateCanvas();
 }
@@ -31,54 +44,61 @@ function setAval() {
 function addPoint(event) {
     var x = event.clientX - c.getBoundingClientRect().left;
     var y = event.clientY - c.getBoundingClientRect().top;
-    points.push([x, y]);
+    controlPoints.push([x, y]);
+    pointsArr[currentCurve] = controlPoints.slice();
     updateCanvas();
 }
 
 function updateCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if(showPoints){
+    if (showPoints) {
         drawPoints();
     }
-    if (points.length > 1) {
-        if(showPoli)
-            drawLines(points, "#FFD848");
-        
-        pointsCurve = new Array();
-        makeCurve();
-        if(showCurve)
-            drawLines(pointsCurve, "#000000");
-    } 
+    if (showPoli)
+        drawLines(pointsArr, "#FFD848");
+
+    makeCurve();
+    if (showCurve)
+        drawLines(curves, "#000000");
+
 }
 
 function drawPoints() {
     ctx.strokeStyle = "#000000";
-    for (let i = 0; i < points.length; i++) {
-        ctx.beginPath();
-        ctx.arc(points[i][0], points[i][1], 5, 0, 2 * Math.PI);
-        ctx.fillRect(points[i][0] - 1.5, points[i][1] - 1.5, 3, 3);
-        ctx.stroke();
+    for (let i = 0; i < pointsArr.length; i++) {
+        for (let j = 0; j < pointsArr[i].length; j++) {
+            ctx.beginPath();
+            ctx.arc(pointsArr[i][j][0], pointsArr[i][j][1], 5, 0, 2 * Math.PI);
+            ctx.fillRect(pointsArr[i][j][0] - 1.5, pointsArr[i][j][1] - 1.5, 3, 3);
+            ctx.stroke();
+        }
     }
 }
 
 function drawLines(pointsSet, color) {
     ctx.strokeStyle = color;
-    for (let j = 0; j < pointsSet.length - 1; j++) {
-        ctx.beginPath();
-        ctx.moveTo(pointsSet[j][0], pointsSet[j][1]);
-        ctx.lineTo(pointsSet[j + 1][0], pointsSet[j + 1][1]);
-        ctx.stroke();
+    for (let i = 0; i < pointsSet.length; i++) {
+        for (let j = 0; j < pointsSet[i].length - 1; j++) {
+            ctx.beginPath();
+            ctx.moveTo(pointsSet[i][j][0], pointsSet[i][j][1]);
+            ctx.lineTo(pointsSet[i][j + 1][0], pointsSet[i][j + 1][1]);
+            ctx.stroke();
+        }
     }
 }
 
 function makeCurve() {
-    let point;
-    for (let i = 0; i < aval; i++) {
-        point = castanhaDeCaju(points, i);
-        if (point)
-            pointsCurve.push(point);
+    for (let j = 0; j < pointsArr.length; j++) {
+        pointsCurve = new Array();
+        let point;
+        for (let i = 0; i < aval; i++) {
+            point = castanhaDeCaju(pointsArr[j], i);
+            if (point)
+                pointsCurve.push(point);
+        }
+        pointsCurve.push(pointsArr[j][pointsArr[j].length - 1]);
+        curves[j] = pointsCurve;
     }
-    pointsCurve.push(points[points.length - 1]);
 }
 
 function castanhaDeCaju(anchorPoints, i) {
