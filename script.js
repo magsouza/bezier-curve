@@ -30,6 +30,7 @@ function nextCurve() {
     }
     controlPoints = pointsArr[currentCurve];
 }
+
 function previousCurve() {
     if (currentCurve != 0) {
         currentCurve--;
@@ -37,6 +38,15 @@ function previousCurve() {
         currentCurve = pointsArr.length - 1;
     }
     controlPoints = pointsArr[currentCurve];
+}
+
+function editCurve() {
+    stopCurve();
+    c.addEventListener("click", () => {
+        var point = getCoords(event);
+        console.log(point);
+    })
+    
 }
 
 function toggleControlPoints() {
@@ -58,10 +68,15 @@ function setAval() {
     updateCanvas();
 }
 
-function addPoint(event) {
+function getCoords(event) {
     var x = event.clientX - c.getBoundingClientRect().left;
     var y = event.clientY - c.getBoundingClientRect().top;
-    controlPoints.push([x, y]);
+    return [x, y]
+}
+
+function addPoint(event) {
+    var point = getCoords(event);
+    controlPoints.push(point);
     pointsArr[currentCurve] = controlPoints.slice();
     updateCanvas();
 }
