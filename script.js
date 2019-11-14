@@ -11,15 +11,32 @@ var currentCurve = -1;
 var aval = 100;
 
 function startCurve() {
-    c.addEventListener("click", addPoint);
     pointsArr.push(new Array());
     curves = new Array(pointsArr.length);
     controlPoints = new Array();
-    currentCurve++;
+    currentCurve = pointsArr.length - 1;
+    c.addEventListener("click", addPoint);
 }
 
 function stopCurve() {
     c.removeEventListener("click", addPoint);
+}
+
+function nextCurve() {
+    if (currentCurve != pointsArr.length - 1) {
+        currentCurve++;
+    } else {
+        currentCurve = 0;
+    }
+    controlPoints = pointsArr[currentCurve];
+}
+function previousCurve() {
+    if (currentCurve != 0) {
+        currentCurve--;
+    } else {
+        currentCurve = pointsArr.length - 1;
+    }
+    controlPoints = pointsArr[currentCurve];
 }
 
 function toggleControlPoints() {
@@ -51,15 +68,16 @@ function addPoint(event) {
 
 function updateCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (showPoints) {
+    if (showPoints)
         drawPoints();
-    }
+
     if (showPoli)
         drawLines(pointsArr, "#FFD848");
 
-    makeCurve();
-    if (showCurve)
+    if (showCurve) {
+        makeCurve();
         drawLines(curves, "#000000");
+    }
 
 }
 
