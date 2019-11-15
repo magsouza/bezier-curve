@@ -8,28 +8,36 @@
 </head>
 
 <body>
-    <font face="calibri" color="#fff3f9">
-        <h1>
-             Castanha de Caju
-        </h1>
-        <div class="buttons">
-            <b>Avaliações:</b> <input type="text" placeholder="100" id="nAvaliacoes" oninput="setAval()"><br>
-            <button type="button" onclick="startCurve()"> Iniciar curva </button>
-            <button type="button" onclick="stopCurve()"> Encerrar curva </button>
-            <button type="button" onclick="editCurve()"> Editar curva </button>
-            <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
-            <input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle
-            <input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle
-            <input type="checkbox" onclick="toggleCurves()" checked> Curvas
-            
-            <button type="button" onclick="previousCurve()"> Curva anterior </button>
+    <div class="container">
+        <h1 class="title">Castanha de Caju</h1>
+        <div class="selection">
+            <button type="button" onclick="previousCurve()"> Curva anterior </button>    
             <button type="button" onclick="nextCurve()"> Próxima curva </button>
         </div>
-    </font>
-    <div class="container">
-        <canvas id="canvas" height="500" width="1000">
-            <script type="text/javascript" src="script.js"></script>
-        </canvas>
+        <div class="drawarea">
+            <div class="curveseditor">
+                <span class="aval">
+                    Avaliações:
+                    <input type="number" placeholder="100" id="nAvaliacoes" oninput="setAval()" min="1" class="nAval">
+                </span>
+                <div class="buttons">
+                    <button type="button" onclick="startCurve()"> Iniciar curva </button>
+                    <button type="button" onclick="stopCurve()"> Encerrar curva </button>
+                    <button type="button" onclick="editCurve()"> Editar curva </button>
+                    <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
+                </div>
+            </div>
+            <div>
+                <canvas id="canvas" height="490" width="900">
+                    <script type="text/javascript" src="script.js"></script>
+                </canvas>
+            </div>
+            <div class="checkboxes">
+                    <label><input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle</label>
+                    <label><input type="checkbox" onclick="toggleCurves()" checked> Curvas</label>
+                    <label><input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle</label>
+            </div>
+        </div>
     </div>
 
 </html>
