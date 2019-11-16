@@ -27,7 +27,7 @@ function stopDrawCurve() {
 }
 
 function stopEditCurve() {
-    c.removeEventListener("click", movePoint);
+    c.removeEventListener("mousedown", movePoint);
     c.removeEventListener("dblclick", deletePoint);
 }
 
@@ -51,11 +51,20 @@ function previousCurve() {
 
 function editCurve() {
     stopDrawCurve();
-    c.addEventListener("click", movePoint = (event) => {
+    c.addEventListener("mousedown", movePoint = (event) => {
         const point = getCoords(event);
         const controlP = isControlPoint(point);
         if (controlP[0]) {
-            console.log("vou te mover");
+            c.addEventListener("mouseup", onMouseUp = (event) => {
+                c.removeEventListener('mouseup', onMouseUp);
+                c.removeEventListener('mousemove', onMouseMove);
+            });
+
+            c.addEventListener("mousemove", onMouseMove = (event) => {
+                pointsArr[controlP[2]][controlP[3]][0] = event.clientX - c.getBoundingClientRect().left;
+                pointsArr[controlP[2]][controlP[3]][1] = event.clientY - c.getBoundingClientRect().top;
+                updateCanvas();
+            });
         }
     })
 
