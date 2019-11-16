@@ -18,12 +18,13 @@ function startCurve() {
     c.addEventListener("click", addPoint);
 }
 
-function stopCurve() {
+function stopDrawCurve() {
     c.removeEventListener("click", addPoint);
 }
 
 function stopEditCurve() {
-    c.removeEventListener("click");
+    c.removeEventListener("click", movePoint);
+    c.removeEventListener("dblclick", deletePoint);
 }
 
 function nextCurve() {
@@ -45,8 +46,8 @@ function previousCurve() {
 }
 
 function editCurve() {
-    stopCurve();
-    c.addEventListener("click", () => {
+    stopDrawCurve();
+    c.addEventListener("click", movePoint = (event) => {
         const point = getCoords(event);
         const controlP = isControlPoint(point);
         if (controlP[0]) {
@@ -54,24 +55,24 @@ function editCurve() {
         }
     })
 
-    c.addEventListener("dblclick", () => {
+    c.addEventListener("dblclick", deletePoint = (event) => {
         const point = getCoords(event);
         const controlP = isControlPoint(point);
         if (controlP[0]) {
-            deletePoint(controlP[2], controlP[3]);
+            console.log(controlP);
+            deleteControlPoint(controlP[2], controlP[3]);
             updateCanvas();
         }
     })
-    
 }
 
-function deletePoint(i, j) {
+function deleteControlPoint(i, j) {
     pointsArr[i].splice(j, 1);
 }
 
 function isControlPoint(point) {
     for (let i = 0; i < pointsArr.length; i++) {
-        for (let j = 0; i < pointsArr[i].length; j++) {
+        for (let j = 0; j < pointsArr[i].length; j++) {
             const xLimits = pointsArr[i][j][0]-5 <= point[0] && point[0] <= pointsArr[i][j][0]+5;
             const yLimits = pointsArr[i][j][1]-5 <= point[1] && point[1] <= pointsArr[i][j][1]+5;
             if (xLimits && yLimits) {
