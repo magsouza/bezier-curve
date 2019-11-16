@@ -58,30 +58,24 @@ function editCurve() {
         const point = getCoords(event);
         const controlP = isControlPoint(point);
         if (controlP[0]) {
-            deletePoint(controlP[1]);
+            deletePoint(controlP[2], controlP[3]);
             updateCanvas();
         }
     })
     
 }
 
-function deletePoint(point) {
-    for (const curve of pointsArr) {
-        for (let i = 0; i < curve.length; i++) {
-            if (point === curve[i]) {
-                curve.splice(i, 1);
-            }
-        }
-    }
+function deletePoint(i, j) {
+    pointsArr[i].splice(j, 1);
 }
 
 function isControlPoint(point) {
-    for (const curve of pointsArr) {
-        for (const cPoint of curve) {
-            const xLimits = cPoint[0]-5 <= point[0] && point[0] <= cPoint[0]+5;
-            const yLimits = cPoint[1]-5 <= point[1] && point[1] <= cPoint[1]+5;
+    for (let i = 0; i < pointsArr.length; i++) {
+        for (let j = 0; i < pointsArr[i].length; j++) {
+            const xLimits = pointsArr[i][j][0]-5 <= point[0] && point[0] <= pointsArr[i][j][0]+5;
+            const yLimits = pointsArr[i][j][1]-5 <= point[1] && point[1] <= pointsArr[i][j][1]+5;
             if (xLimits && yLimits) {
-                return [true, cPoint];
+                return [true, pointsArr[i][j], i, j];
             }
         }
     }
