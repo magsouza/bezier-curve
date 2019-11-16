@@ -11,20 +11,20 @@
     <div class="container">
         <h1 class="title">Castanha de Caju</h1>
         <div class="selection">
-            <button type="button" onclick="previousCurve()"> Curva anterior </button>    
+            <button type="button" onclick="previousCurve()"> Curva anterior </button>
             <button type="button" onclick="nextCurve()"> Próxima curva </button>
         </div>
         <div class="drawarea">
             <div class="curveseditor">
                 <span class="aval">
                     Avaliações:
-                    <input type="number" placeholder="100" id="nAvaliacoes" oninput="setAval()" min="1" class="nAval">
+                    <input type="text" placeholder="100" id="nAvaliacoes" oninput="setAval()" min="1" class="nAval">
                 </span>
                 <div class="buttons">
                     <button type="button" onclick="startCurve()"> Iniciar curva </button>
                     <button type="button" onclick="stopDrawCurve()"> Encerrar curva </button>
                     <button type="button" onclick="editCurve()"> Editar curva </button>
-                    <button type="button" onclick="alert('Não ta funcionando ainda :)')"> Deletar curva </button>
+                    <button type="button" onclick="deleteCurve()"> Deletar curva </button>
                 </div>
             </div>
             <div>
@@ -33,9 +33,9 @@
                 </canvas>
             </div>
             <div class="checkboxes">
-                    <label><input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle</label>
-                    <label><input type="checkbox" onclick="toggleCurves()" checked> Curvas</label>
-                    <label><input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle</label>
+                <label><input type="checkbox" onclick="toggleControlPoints()" checked> Pontos de controle</label>
+                <label><input type="checkbox" onclick="toggleCurves()" checked> Curvas</label>
+                <label><input type="checkbox" onclick="toggleControlPoli()" checked> Poligonais de controle</label>
             </div>
         </div>
     </div>
