@@ -22,6 +22,18 @@ function stopCurve() {
     c.removeEventListener("click", addPoint);
 }
 
+function deleteCurve() {
+    if (currentCurve <= -1) {
+        alert("Não há mais curvas para deletar!");
+    } else {
+        for (let i = currentCurve; i < pointsArr.length - 1; i++) {
+            pointsArr[i] = pointsArr[i + 1].slice();
+        }
+        pointsArr.pop();
+        previousCurve();
+    }
+}
+
 function nextCurve() {
     if (currentCurve != pointsArr.length - 1) {
         currentCurve++;
@@ -29,6 +41,7 @@ function nextCurve() {
         currentCurve = 0;
     }
     controlPoints = pointsArr[currentCurve];
+    updateCanvas();
 }
 
 function previousCurve() {
@@ -38,6 +51,7 @@ function previousCurve() {
         currentCurve = pointsArr.length - 1;
     }
     controlPoints = pointsArr[currentCurve];
+    updateCanvas();
 }
 
 function editCurve() {
@@ -46,7 +60,6 @@ function editCurve() {
         var point = getCoords(event);
         console.log(point);
     })
-    
 }
 
 function toggleControlPoints() {
@@ -58,6 +71,7 @@ function toggleControlPoli() {
     showPoli = !showPoli;
     updateCanvas();
 }
+
 function toggleCurves() {
     showCurve = !showCurve;
     updateCanvas();
@@ -93,7 +107,6 @@ function updateCanvas() {
         makeCurve();
         drawLines(curves, "#000000");
     }
-
 }
 
 function drawPoints() {
@@ -121,6 +134,7 @@ function drawLines(pointsSet, color) {
 }
 
 function makeCurve() {
+    curves = new Array();
     for (let j = 0; j < pointsArr.length; j++) {
         pointsCurve = new Array();
         let point;
