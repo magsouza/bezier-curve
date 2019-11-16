@@ -1,14 +1,14 @@
-var c = document.getElementById("canvas");
-var ctx = c.getContext("2d");
-var controlPoints = Array();
-var pointsCurve = Array();
-var pointsArr = Array();
-var curves = Array();
-var showPoints = 1;
-var showPoli = 1;
-var showCurve = 1;
-var currentCurve = -1;
-var aval = 100;
+const c = document.getElementById("canvas");
+const ctx = c.getContext("2d");
+let controlPoints = new Array();
+let pointsCurve = new Array();
+let pointsArr = new Array();
+let curves = new Array();
+let showPoints = 1;
+let showPoli = 1;
+let showCurve = 1;
+let currentCurve = -1;
+let aval = 100;
 
 function startCurve() {
     pointsArr.push(new Array());
@@ -20,6 +20,10 @@ function startCurve() {
 
 function stopCurve() {
     c.removeEventListener("click", addPoint);
+}
+
+function stopEditCurve() {
+    c.removeEventListener("click");
 }
 
 function nextCurve() {
@@ -43,10 +47,45 @@ function previousCurve() {
 function editCurve() {
     stopCurve();
     c.addEventListener("click", () => {
-        var point = getCoords(event);
-        console.log(point);
+        const point = getCoords(event);
+        const controlP = isControlPoint(point);
+        if (controlP[0]) {
+            console.log("vou te mover");
+        }
+    })
+
+    c.addEventListener("dblclick", () => {
+        const point = getCoords(event);
+        const controlP = isControlPoint(point);
+        if (controlP[0]) {
+            deletePoint(controlP[1]);
+            updateCanvas();
+        }
     })
     
+}
+
+function deletePoint(point) {
+    for (const curve of pointsArr) {
+        for (let i = 0; i < curve.length; i++) {
+            if (point === curve[i]) {
+                curve.splice(i, 1);
+            }
+        }
+    }
+}
+
+function isControlPoint(point) {
+    for (const curve of pointsArr) {
+        for (const cPoint of curve) {
+            const xLimits = cPoint[0]-5 <= point[0] && point[0] <= cPoint[0]+5;
+            const yLimits = cPoint[1]-5 <= point[1] && point[1] <= cPoint[1]+5;
+            if (xLimits && yLimits) {
+                return [true, cPoint];
+            }
+        }
+    }
+    return [false];
 }
 
 function toggleControlPoints() {
@@ -69,13 +108,13 @@ function setAval() {
 }
 
 function getCoords(event) {
-    var x = event.clientX - c.getBoundingClientRect().left;
-    var y = event.clientY - c.getBoundingClientRect().top;
-    return [x, y]
+    const x = event.clientX - c.getBoundingClientRect().left;
+    const y = event.clientY - c.getBoundingClientRect().top;
+    return [x, y];
 }
 
 function addPoint(event) {
-    var point = getCoords(event);
+    const point = getCoords(event);
     controlPoints.push(point);
     pointsArr[currentCurve] = controlPoints.slice();
     updateCanvas();
