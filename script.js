@@ -11,11 +11,15 @@ let currentCurve = -1;
 let aval = 100;
 
 function startCurve() {
-    pointsArr.push(new Array());
-    curves = new Array(pointsArr.length);
-    controlPoints = new Array();
-    currentCurve = pointsArr.length - 1;
-    c.addEventListener("click", addPoint);
+    try {
+        stopEditCurve();
+    } finally {
+        pointsArr.push(new Array());
+        curves = new Array(pointsArr.length);
+        controlPoints = new Array();
+        currentCurve = pointsArr.length - 1;
+        c.addEventListener("click", addPoint);
+    }
 }
 
 function stopDrawCurve() {
@@ -59,7 +63,6 @@ function editCurve() {
         const point = getCoords(event);
         const controlP = isControlPoint(point);
         if (controlP[0]) {
-            console.log(controlP);
             deleteControlPoint(controlP[2], controlP[3]);
             updateCanvas();
         }
