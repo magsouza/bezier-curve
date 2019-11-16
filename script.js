@@ -149,17 +149,23 @@ function updateCanvas() {
         drawPoints();
 
     if (showPoli)
-        drawLines(pointsArr, "#FFD848");
+        drawLines(pointsArr, "#84BDFF", "#FF92F3");
 
     if (showCurve) {
         makeCurve();
-        drawLines(curves, "#000000");
+        drawLines(curves, "#721E96", "#C340FF");
     }
 }
 
 function drawPoints() {
-    ctx.strokeStyle = "#000000";
     for (let i = 0; i < pointsArr.length; i++) {
+        if (i != currentCurve) {
+            ctx.strokeStyle = "#4B7DB6";
+            ctx.fillStyle = "#4B7DB6";
+        } else {
+            ctx.strokeStyle = "#FF4040";
+            ctx.fillStyle = "#FF4040";
+        }
         for (let j = 0; j < pointsArr[i].length; j++) {
             ctx.beginPath();
             ctx.arc(pointsArr[i][j][0], pointsArr[i][j][1], 5, 0, 2 * Math.PI);
@@ -169,9 +175,13 @@ function drawPoints() {
     }
 }
 
-function drawLines(pointsSet, color) {
-    ctx.strokeStyle = color;
+function drawLines(pointsSet, color, selectedColor) {
     for (let i = 0; i < pointsSet.length; i++) {
+        if (i != currentCurve)
+            ctx.strokeStyle = color;
+        else
+            ctx.strokeStyle = selectedColor;
+
         for (let j = 0; j < pointsSet[i].length - 1; j++) {
             ctx.beginPath();
             ctx.moveTo(pointsSet[i][j][0], pointsSet[i][j][1]);
