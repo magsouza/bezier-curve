@@ -65,32 +65,37 @@ function previousCurve() {
 }
 
 function editCurve() {
-    stopDrawCurve();
-    c.addEventListener("mousedown", movePoint = (event) => {
-        const point = getCoords(event);
-        const controlP = isControlPoint(point);
-        if (controlP[0]) {
-            c.addEventListener("mouseup", onMouseUp = (event) => {
-                c.removeEventListener('mouseup', onMouseUp);
-                c.removeEventListener('mousemove', onMouseMove);
-            });
+    try {
+        stopDrawCurve();
+        stopEditCurve();
+    } finally {
+        c.addEventListener("mousedown", movePoint = (event) => {
+            const point = getCoords(event);
+            const controlP = isControlPoint(point);
+            if (controlP[0]) {
+                c.addEventListener("mouseup", onMouseUp = () => {
+                    c.removeEventListener('mouseup', onMouseUp);
+                    c.removeEventListener('mousemove', onMouseMove);
+                });
 
-            c.addEventListener("mousemove", onMouseMove = (event) => {
-                pointsArr[controlP[2]][controlP[3]][0] = event.clientX - c.getBoundingClientRect().left;
-                pointsArr[controlP[2]][controlP[3]][1] = event.clientY - c.getBoundingClientRect().top;
+                c.addEventListener("mousemove", onMouseMove = (event) => {
+                    pointsArr[controlP[2]][controlP[3]][0] = event.clientX - c.getBoundingClientRect().left;
+                    pointsArr[controlP[2]][controlP[3]][1] = event.clientY - c.getBoundingClientRect().top;
+                    updateCanvas();
+                });
+            }
+        });
+
+        c.addEventListener("dblclick", deletePoint = (event) => {
+            const point = getCoords(event);
+            const controlP = isControlPoint(point);
+            if (controlP[0]) {
+                deleteControlPoint(controlP[2], controlP[3]);
                 updateCanvas();
-            });
-        }
-    });
+            }
+        });
+    }
 
-    c.addEventListener("dblclick", deletePoint = (event) => {
-        const point = getCoords(event);
-        const controlP = isControlPoint(point);
-        if (controlP[0]) {
-            deleteControlPoint(controlP[2], controlP[3]);
-            updateCanvas();
-        }
-    });
 }
 
 function deleteControlPoint(i, j) {
