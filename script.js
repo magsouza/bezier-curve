@@ -18,6 +18,7 @@ function startCurve() {
         curves = new Array(pointsArr.length);
         controlPoints = new Array();
         currentCurve = pointsArr.length - 1;
+        updateCanvas();
         c.addEventListener("click", addPoint);
     }
 }
@@ -65,32 +66,37 @@ function previousCurve() {
 }
 
 function editCurve() {
-    stopDrawCurve();
-    c.addEventListener("mousedown", movePoint = (event) => {
-        const point = getCoords(event);
-        const controlP = isControlPoint(point);
-        if (controlP[0]) {
-            c.addEventListener("mouseup", onMouseUp = (event) => {
-                c.removeEventListener('mouseup', onMouseUp);
-                c.removeEventListener('mousemove', onMouseMove);
-            });
+    try {
+        stopDrawCurve();
+        stopEditCurve();
+    } finally {
+        c.addEventListener("mousedown", movePoint = (event) => {
+            const point = getCoords(event);
+            const controlP = isControlPoint(point);
+            if (controlP[0]) {
+                c.addEventListener("mouseup", onMouseUp = () => {
+                    c.removeEventListener('mouseup', onMouseUp);
+                    c.removeEventListener('mousemove', onMouseMove);
+                });
 
-            c.addEventListener("mousemove", onMouseMove = (event) => {
-                pointsArr[controlP[2]][controlP[3]][0] = event.clientX - c.getBoundingClientRect().left;
-                pointsArr[controlP[2]][controlP[3]][1] = event.clientY - c.getBoundingClientRect().top;
+                c.addEventListener("mousemove", onMouseMove = (event) => {
+                    pointsArr[controlP[2]][controlP[3]][0] = event.clientX - c.getBoundingClientRect().left;
+                    pointsArr[controlP[2]][controlP[3]][1] = event.clientY - c.getBoundingClientRect().top;
+                    updateCanvas();
+                });
+            }
+        });
+
+        c.addEventListener("dblclick", deletePoint = (event) => {
+            const point = getCoords(event);
+            const controlP = isControlPoint(point);
+            if (controlP[0]) {
+                deleteControlPoint(controlP[2], controlP[3]);
                 updateCanvas();
-            });
-        }
-    });
+            }
+        });
+    }
 
-    c.addEventListener("dblclick", deletePoint = (event) => {
-        const point = getCoords(event);
-        const controlP = isControlPoint(point);
-        if (controlP[0]) {
-            deleteControlPoint(controlP[2], controlP[3]);
-            updateCanvas();
-        }
-    });
 }
 
 function deleteControlPoint(i, j) {
@@ -100,8 +106,8 @@ function deleteControlPoint(i, j) {
 function isControlPoint(point) {
     for (let i = 0; i < pointsArr.length; i++) {
         for (let j = 0; j < pointsArr[i].length; j++) {
-            const xLimits = pointsArr[i][j][0]-5 <= point[0] && point[0] <= pointsArr[i][j][0]+5;
-            const yLimits = pointsArr[i][j][1]-5 <= point[1] && point[1] <= pointsArr[i][j][1]+5;
+            const xLimits = pointsArr[i][j][0] - 5 <= point[0] && point[0] <= pointsArr[i][j][0] + 5;
+            const yLimits = pointsArr[i][j][1] - 5 <= point[1] && point[1] <= pointsArr[i][j][1] + 5;
             if (xLimits && yLimits) {
                 return [true, pointsArr[i][j], i, j];
             }
